@@ -268,7 +268,7 @@ els.today.addEventListener("click", showDaily);
 els.copy.addEventListener("click", async () => {
   try {
     const source = current.source ? ` (${current.source})` : "";
-    const tips = current.tips ? `\n${current.tips.map((t) => `- ${t}`).join("\n")}` : "";
+    const tips = current.tips ? `\nLook: ${current.tips.join(", ")}` : "";
     await navigator.clipboard.writeText(`${current.type}: ${current.text}${source}${tips}`);
     els.copy.textContent = "Copied!";
   } catch {

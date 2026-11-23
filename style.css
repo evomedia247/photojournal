@@ -86,28 +86,25 @@ main {
 }
 
 .tips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
   margin: 0 auto 0.75rem;
   padding: 0;
-  max-width: 28rem;
+  max-width: 30rem;
   list-style: none;
-  text-align: left;
-  color: var(--text);
-  font-size: 0.95rem;
-  line-height: 1.4;
 }
 
 .tips:empty { display: none; }
 
 .tips li {
-  position: relative;
-  padding: 0.3rem 0 0.3rem 1.2rem;
-}
-
-.tips li::before {
-  content: "•";
-  position: absolute;
-  left: 0.2rem;
-  color: var(--accent);
+  padding: 0.25rem 0.7rem;
+  border: 1px solid #3a3a3a;
+  border-radius: 999px;
+  background: #262626;
+  color: var(--text);
+  font-size: 0.85rem;
 }
 
 #prompt {
