@@ -96,6 +96,16 @@ main {
   list-style: none;
 }
 
+.examples {
+  display: inline-block;
+  margin: 0.25rem 0 0.75rem;
+  color: var(--accent);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.examples:hover { text-decoration: underline; }
+
 .tips:empty { display: none; }
 
 .tips li {

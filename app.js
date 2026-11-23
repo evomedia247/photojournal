@@ -7,6 +7,7 @@ const els = {
   source: document.getElementById("source"),
   tipsTitle: document.getElementById("tips-title"),
   tips: document.getElementById("tips"),
+  examples: document.getElementById("examples"),
   note: document.getElementById("note"),
   count: document.getElementById("count"),
   weather: document.getElementById("weather"),
@@ -69,6 +70,16 @@ let current = null;
 let viewingDaily = true;
 
 const promptKey = (p) => `${p.type}|${p.text}`;
+
+// Google Images search for example photos of the current prompt.
+function examplesUrl(prompt) {
+  const subject = prompt.text
+    .replace(/^In the style of /, "")
+    .replace(/^Song: /, "")
+    .replace(/[“”]/g, "");
+  const query = prompt.type === "Style" ? `${subject} photography style` : `${subject} photography`;
+  return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query)}`;
+}
 
 function remember(prompt) {
   const key = promptKey(prompt);
@@ -239,6 +250,7 @@ function render() {
   els.prompt.textContent = current.text;
   els.source.textContent = current.source ? `— ${current.source}` : "";
   els.tipsTitle.hidden = !current.tips;
+  els.examples.href = examplesUrl(current);
   els.tips.replaceChildren(
     ...(current.tips || []).map((tip) => Object.assign(document.createElement("li"), { textContent: tip })),
   );
