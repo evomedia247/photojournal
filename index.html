@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo Journal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1 class="title">Photo Journal</h1>
+    <p id="date" class="date"></p>
+    <section class="card" aria-live="polite">
+      <span id="type" class="type"></span>
+      <h2 id="prompt"></h2>
+      <p id="source" class="source"></p>
+      <p id="note" class="note"></p>
+    </section>
+
+    <div class="actions">
+      <button id="reroll" type="button">🎲 Reroll</button>
+      <button id="today" type="button">↩ Today's prompt</button>
+      <button id="copy" type="button">Copy</button>
+    </div>
+
+    <fieldset class="filters">
+      <legend>Include</legend>
+      <label><input type="checkbox" value="Word" checked> Words</label>
+      <label><input type="checkbox" value="Concept" checked> Concepts</label>
+      <label><input type="checkbox" value="Challenge" checked> Challenges</label>
+      <label><input type="checkbox" value="Poetry" checked> Poetry &amp; songs</label>
+      <label><input type="checkbox" value="Idiom" checked> Idioms</label>
+      <label><input type="checkbox" value="Mood" checked> Moods</label>
+      <label><input type="checkbox" value="Style" checked> Photographer styles</label>
+      <label><input type="checkbox" value="Technique" checked> Techniques</label>
+      <label><input type="checkbox" value="Colours" checked> Colour pairs</label>
+      <label><input type="checkbox" value="Location" checked> Locations</label>
+      <label><input type="checkbox" value="Weather" checked> Weather &amp; seasons</label>
+      <label><input type="checkbox" value="Series" checked> Series projects</label>
+    </fieldset>
+    <p id="count" class="count"></p>
+    <div class="weather-row">
+      <span id="weather" class="weather"></span>
+      <button id="location" type="button" class="small">📍 Set location</button>
+    </div>
+    <form id="location-form" class="location-form" hidden>
+      <input id="city" type="text" placeholder="City, e.g. Leeds" autocomplete="off" aria-label="City">
+      <button type="submit" class="small">Set</button>
+      <button type="button" id="device" class="small">Use my device location</button>
+    </form>
+    <p id="location-message" class="count" role="status"></p>
+  </main>
+  <script src="themes.js"></script>
+  <script src="weather.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
