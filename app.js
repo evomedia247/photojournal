@@ -5,6 +5,8 @@ const els = {
   type: document.getElementById("type"),
   prompt: document.getElementById("prompt"),
   source: document.getElementById("source"),
+  tipsTitle: document.getElementById("tips-title"),
+  tips: document.getElementById("tips"),
   note: document.getElementById("note"),
   count: document.getElementById("count"),
   weather: document.getElementById("weather"),
@@ -121,7 +123,10 @@ const GENERATORS = {
     count: MOODS.length,
     at: (i) => capitalise(MOODS[i]),
   },
-  Style: fromPairs(STYLES),
+  Style: {
+    count: STYLES.length,
+    at: (i) => ({ text: STYLES[i][0], source: STYLES[i][1], tips: STYLES[i][2] }),
+  },
   Technique: fromPairs(TECHNIQUES),
   Colours: {
     count: COLOUR_PAIRS.length,
@@ -233,6 +238,10 @@ function render() {
   els.type.dataset.type = current.type;
   els.prompt.textContent = current.text;
   els.source.textContent = current.source ? `— ${current.source}` : "";
+  els.tipsTitle.hidden = !current.tips;
+  els.tips.replaceChildren(
+    ...(current.tips || []).map((tip) => Object.assign(document.createElement("li"), { textContent: tip })),
+  );
   els.note.textContent = viewingDaily
     ? "Today's prompt"
     : "Rerolled: press “Today's prompt” to go back";
@@ -259,7 +268,8 @@ els.today.addEventListener("click", showDaily);
 els.copy.addEventListener("click", async () => {
   try {
     const source = current.source ? ` (${current.source})` : "";
-    await navigator.clipboard.writeText(`${current.type}: ${current.text}${source}`);
+    const tips = current.tips ? `\n${current.tips.map((t) => `- ${t}`).join("\n")}` : "";
+    await navigator.clipboard.writeText(`${current.type}: ${current.text}${source}${tips}`);
     els.copy.textContent = "Copied!";
   } catch {
     els.copy.textContent = "Copy failed";

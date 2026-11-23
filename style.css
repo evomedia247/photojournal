@@ -77,6 +77,39 @@ main {
 
 .source:empty { display: none; }
 
+.tips-title {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.tips {
+  margin: 0 auto 0.75rem;
+  padding: 0;
+  max-width: 28rem;
+  list-style: none;
+  text-align: left;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.tips:empty { display: none; }
+
+.tips li {
+  position: relative;
+  padding: 0.3rem 0 0.3rem 1.2rem;
+}
+
+.tips li::before {
+  content: "•";
+  position: absolute;
+  left: 0.2rem;
+  color: var(--accent);
+}
+
 #prompt {
   margin: 1.25rem 0 0.75rem;
   font-size: clamp(1.8rem, 6vw, 2.6rem);
