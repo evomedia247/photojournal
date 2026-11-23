@@ -21,6 +21,8 @@ const els = {
   today: document.getElementById("today"),
   copy: document.getElementById("copy"),
   filters: [...document.querySelectorAll(".filters input")],
+  selectAll: document.getElementById("select-all"),
+  selectNone: document.getElementById("select-none"),
 };
 
 function todayKey() {
@@ -245,6 +247,21 @@ function render() {
   els.date.textContent = new Date().toLocaleDateString(undefined, {
     weekday: "long", year: "numeric", month: "long", day: "numeric",
   });
+  els.count.textContent = `${totalPrompts().toLocaleString()} possible prompts`;
+  const empty = !current;
+  els.type.hidden = empty;
+  els.examples.hidden = empty;
+  els.reroll.disabled = empty;
+  els.copy.disabled = empty;
+  if (empty) {
+    els.prompt.textContent = "Choose a category below";
+    els.source.textContent = "";
+    els.tipsTitle.hidden = true;
+    els.tips.replaceChildren();
+    els.note.textContent = "Nothing is selected";
+    els.today.hidden = true;
+    return;
+  }
   els.type.textContent = current.type;
   els.type.dataset.type = current.type;
   els.prompt.textContent = current.text;
@@ -258,17 +275,17 @@ function render() {
     ? "Today's prompt"
     : "Rerolled: press “Today's prompt” to go back";
   els.today.hidden = viewingDaily;
-  els.count.textContent = `${totalPrompts().toLocaleString()} possible prompts`;
 }
 
 function showDaily() {
   viewingDaily = true;
-  current = dailyPrompt();
-  remember(current);
+  current = enabledTypes().length ? dailyPrompt() : null;
+  if (current) remember(current);
   render();
 }
 
 els.reroll.addEventListener("click", () => {
+  if (!enabledTypes().length) return;
   viewingDaily = false;
   current = randomPrompt();
   remember(current);
@@ -289,14 +306,25 @@ els.copy.addEventListener("click", async () => {
   setTimeout(() => (els.copy.textContent = "Copy"), 1200);
 });
 
+function applyFilters() {
+  state.disabled = els.filters.filter((f) => !f.checked).map((f) => f.value);
+  saveState();
+  showDaily();
+}
+
 els.filters.forEach((box) => {
   box.checked = !state.disabled.includes(box.value);
-  box.addEventListener("change", () => {
-    if (!els.filters.some((f) => f.checked)) box.checked = true;
-    state.disabled = els.filters.filter((f) => !f.checked).map((f) => f.value);
-    saveState();
-    showDaily();
-  });
+  box.addEventListener("change", applyFilters);
+});
+
+els.selectAll.addEventListener("click", () => {
+  els.filters.forEach((f) => (f.checked = true));
+  applyFilters();
+});
+
+els.selectNone.addEventListener("click", () => {
+  els.filters.forEach((f) => (f.checked = false));
+  applyFilters();
 });
 
 function renderWeather() {
